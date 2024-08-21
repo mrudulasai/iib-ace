@@ -28,7 +28,6 @@ jobs:
       - name: Run mqsiprofile command
         run: |
           echo "Running IIB commands..."
-          source /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile;
-          mqsilist
+          source /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile
         env:
           MQSI_INSTALLATION_PATH: /opt/ibm/mqsi/iib-10.0.0.7/server/bin/
