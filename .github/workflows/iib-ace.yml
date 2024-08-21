@@ -1,0 +1,23 @@
+name: IIB-ACE
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run mqsiprofile command
+        run: |
+          echo "Running IIB commands..."
+          source /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile
+        env:
+          MQSI_INSTALLATION_PATH: /opt/ibm/mqsi/iib-10.0.0.7/server/bin/
