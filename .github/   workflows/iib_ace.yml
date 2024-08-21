@@ -1,1 +1,23 @@
+name: IBM Integration Bus Commands
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  integration:
+    runs-on: [self-hosted]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run mqsiprofile command
+        run: |
+          source /opt/ibm/iib-10.0.0.7/bin/mqsiprofile
+          echo "Running IIB commands..."
+          mqsilist
+        env:
+          MQSI_INSTALLATION_PATH: /opt/ibm/iib-10.0.0.7
 
