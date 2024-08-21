@@ -1,10 +1,8 @@
 name: IBM Integration Bus Commands
-
 on:
   push:
     branches:
       - main
-
 jobs:
   integration:
     runs-on: [self-hosted]
