@@ -16,10 +16,10 @@ jobs:
       - name: Run mqsiprofile command
         run: |
           echo "Running IIB commands..."
-          . /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile; mqsilist
+          . /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile
 
-      # - name: Run mqsilist
-      #   run: |
-      #     echo "Running IIB commands..."
-      #     /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsilist
+      - name: Run mqsilist
+        run: |
+          echo "Running IIB commands..."
+          . mqsilist
         
