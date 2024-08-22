@@ -18,8 +18,9 @@ jobs:
           echo "Running IIB commands..."
           . /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile
 
-      - name: Run mqsilist
+      - name: Run mqsilist command
         run: |
-          echo "Running IIB commands..."
-          . mqsilist
+          mqsilist
+          env:
+            IIB_HOME: /opt/ibm/mqsi/iib-10.0.0.7/server/bin/
         
