@@ -25,5 +25,5 @@ jobs:
           IIB_SERVER: ${{ secrets.IIB_SERVER }}
           IIB_USER: ${{ secrets.IIB_USER }}
         run: |
-           /I2AC/backup/commands.sh
+           commands.sh
         
