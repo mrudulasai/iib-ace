@@ -20,15 +20,17 @@ jobs:
           eval "$(ssh-agent -s)"
           echo "$SSH_PRIVATE_KEY" | ssh-add -
 
+      - name: Run mqsiprofile
+        env:
+          IIB_SERVER: ${{ secrets.IIB_SERVER }}
+          IIB_USER: ${{ secrets.IIB_USER }}
+        run: |
+           source /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile
+           
       - name: Create backup on IIB server
         env:
           IIB_SERVER: ${{ secrets.IIB_SERVER }}
           IIB_USER: ${{ secrets.IIB_USER }}
         run: |
-          ssh -o StrictHostKeyChecking=no $IIB_USER@$IIB_SERVER << 'EOF'
-            source /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile
-            # Replace the following command with your actual backup command
-            echo "Creating backup..."
-            mqsibackupbroker Demo_INODE1 -a Demo_INODE1.zip -d /I2AC/backup/
-            echo "Backup completed."
-          EOF
+           mqsilist
+        
