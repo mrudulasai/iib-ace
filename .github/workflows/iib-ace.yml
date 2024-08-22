@@ -32,5 +32,5 @@ jobs:
           IIB_SERVER: ${{ secrets.IIB_SERVER }}
           IIB_USER: ${{ secrets.IIB_USER }}
         run: |
-           source /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsilist
+           /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsilist
         
