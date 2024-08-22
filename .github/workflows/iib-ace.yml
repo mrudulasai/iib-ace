@@ -22,7 +22,7 @@ jobs:
         run: |
             source /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile;
             mqsilist
-           
+         
       # - name: Download backup from IIB server
       #   env:
       #     IIB_SERVER: '${{ secrets.IIB_SERVER }}'
