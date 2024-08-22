@@ -25,12 +25,5 @@ jobs:
           IIB_SERVER: ${{ secrets.IIB_SERVER }}
           IIB_USER: ${{ secrets.IIB_USER }}
         run: |
-           source /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile
-           
-      - name: Create backup on IIB server
-        env:
-          IIB_SERVER: ${{ secrets.IIB_SERVER }}
-          IIB_USER: ${{ secrets.IIB_USER }}
-        run: |
-           /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsilist
+           /I2AC/backup/commands.sh
         
