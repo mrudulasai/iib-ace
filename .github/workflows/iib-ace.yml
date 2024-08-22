@@ -1,29 +1,23 @@
-name: Backup from IIB Server via SSH
-
+name: IIB-ACE
+ 
 on:
   push:
-    branches:
-      - main
-
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+ 
+  workflow_dispatch:
+ 
 jobs:
-  backup:
+  build:
     runs-on: self-hosted
-
+ 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Start SSH agent and add private key
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - uses: actions/checkout@v4
+ 
+      - name: Run mqsiprofile command
         run: |
-          eval "$(ssh-agent -s)"
-          echo "$SSH_PRIVATE_KEY" | ssh-add -
-
-      - name: Run mqsiprofile
+          echo "Running IIB commands..."
+          source /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile
         env:
-          IIB_SERVER: ${{ secrets.IIB_SERVER }}
-          IIB_USER: ${{ secrets.IIB_USER }}
-        run: |
-           commands.sh
-        
+          MQSI_INSTALLATION_PATH: /opt/ibm/mqsi/iib-10.0.0.7/server/bin/
