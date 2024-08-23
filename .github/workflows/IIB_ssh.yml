@@ -2,7 +2,7 @@ name: Backup from IIB Server via SSH
 'on':
   push:
     branches:
-      - main
+      - feature
 jobs:
   backup:
     runs-on: ubuntu-latest
