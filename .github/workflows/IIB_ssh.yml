@@ -1,0 +1,40 @@
+name: Backup from IIB Server via SSH
+'on':
+  push:
+    branches:
+      - main
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Start SSH agent and add private key
+        env:
+          SSH_PRIVATE_KEY: '${{ secrets.SSH_PRIVATE_KEY }}'
+        run: |
+          eval "$(ssh-agent -s)"
+          echo "$SSH_PRIVATE_KEY" | ssh-add -
+      - name: Create backup on IIB server
+        env:
+          IIB_SERVER: '${{ secrets.IIB_SERVER }}'
+          IIB_USER: '${{ secrets.IIB_USER }}'
+        run: |
+            '. /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile',
+            'mqsibackupbroker Demo_INODE1 -a /I2AC/backup/Demo_INODE1.zip'
+           
+      # - name: Download backup from IIB server
+      #   env:
+      #     IIB_SERVER: '${{ secrets.IIB_SERVER }}'
+      #     IIB_USER: '${{ secrets.IIB_USER }}'
+      #   run: >
+      #     scp -o StrictHostKeyChecking=no
+      #     $IIB_USER@$IIB_SERVER:/I2AC/backup/Demo_INODE1.zip .
+      # - name: Upload backup to artifacts
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: iib-backup
+      #     path: Demo_INODE1.zip
+      - name: Clean up
+        run: |
+          rm -f Demo_INODE1.zip
