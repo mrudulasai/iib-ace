@@ -11,16 +11,11 @@ jobs:
     runs-on: self-hosted
  
     steps:
-      - uses: actions/checkout@v4
- 
-      - name: Run mqsiprofile command
-        run: |
-          echo "Running IIB commands..."
-          . /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile; mqsilist
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # - name: Run mqsilist command
-      #   run: |
-      #     mqsilist Demo_INODE1
-      #     env:
-      #       IIB_HOME: /opt/ibm/mqsi/iib-10.0.0.7/server/bin/
-        
+      - name: Set executable permissions
+        run: chmod +x scripts/remote_backup.sh
+
+      - name: Run shell script
+        run: ./scripts/remote_backup.sh
