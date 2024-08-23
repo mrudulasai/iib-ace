@@ -14,8 +14,5 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set executable permissions
-        run: chmod 777 /tmp/backup/scripts/remote_backup.sh
-
       - name: Run shell script
         run: /tmp/backup/scripts/remote_backup.sh
