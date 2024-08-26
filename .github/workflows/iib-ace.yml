@@ -2,7 +2,7 @@ name: IIB-ACE
  
 on:
   push:
-    branches: [ "main" ]
+    branches: feature
  
   workflow_dispatch:
  
