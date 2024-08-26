@@ -1,3 +1,23 @@
+name: Connect to Local Server
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install curl
+        run: sudo apt-get install curl
+
+      - name: Test connection to local server
+        run: |
+          curl 119.63.131.226
+---
+
 name: IIB-ACE
  
 on:
@@ -8,7 +28,7 @@ on:
  
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
  
     steps:
       - name: Checkout code
