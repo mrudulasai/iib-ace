@@ -1,22 +1,30 @@
-name: Checkout Code
+name: Backup IIB
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_dispatch:  # Allows manual trigger from GitHub UI
 
 jobs:
-  build:
+  backup:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.7.1
         with:
-          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Verify SSH connection
-        run: ssh -T git@github.com
-
-      - name: Perform Git operations
+      - name: Run IIB Backup Script
         run: |
-          git clone https://github.com/mrudulasai/iib-ace.git
+          ssh -o StrictHostKeyChecking=no user@your-local-server 'bash -s' < .github/workflows/scripts/remote_backup.sh
+
+
+      # - name: Run mqsiprofile command
+      #   env:
+      #     USERNAME: ${{ secrets.REMOTE_USER }}
+      #     PASSWORD: ${{ secrets.REMOTE_PASSWORD }}
+      #   run: |
+      #     echo "Running IIB commands..."
+      #     . /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile
