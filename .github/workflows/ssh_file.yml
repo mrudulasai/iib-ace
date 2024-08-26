@@ -1,6 +1,8 @@
 name: Checkout Code
 
-on: [push]
+on:
+  push:
+    branches: [ "main" ]
 
 jobs:
   build:
@@ -24,4 +26,4 @@ jobs:
 
       - name: Perform Git operations
         run: |
-          git clone git@github.com:username/repository.git
+          git clone https://github.com/mrudulasai/iib-ace.git
