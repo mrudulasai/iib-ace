@@ -1,26 +1,36 @@
 name: Connect to Azure VM
- 
+
 on:
   push:
     branches:
-      - main
- 
+      - main  # Trigger on push to the main branch
+
 jobs:
-  connect-to-vm:
+  connect:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v3
- 
-      - name: Set up SSH
+
+      - name: Set up SSH key
         run: |
-          echo "${{ secrets.AZURE_SSH_PRIVATE_KEY }}" > /home/azureuser/.ssh/id_rsa
-          chmod 600 /home/azureuser/.ssh/id_rsa
-          echo "Host azure-vm" >> /home/azureuser/.ssh/config
-          echo "  HostName ${{ secrets.AZURE_VM_IP }}" >> /home/azureuser/.ssh/config
-          echo "  User azureuser" >> /home/azureuser/.ssh/config
-          echo "  StrictHostKeyChecking no" >> /home/azureuser/.ssh/config
- 
-      - name: Connect and run commands on VM
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AZURE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+      - name: Connect to Azure VM
         run: |
-          ssh azure-vm "echo 'Connected successfully'; uname -a"
+          # Define the SSH connection details
+          VM_USER="azureuser"
+          VM_HOST="52.140.20.63"
+
+          # Run the SSH command
+          ssh -o StrictHostKeyChecking=no $VM_USER@$VM_HOST 'echo "Connected successfully!"'
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
+
+      - name: Clean up SSH key
+        if: always()
+        run: |
+          rm -f ~/.ssh/id_rsa
