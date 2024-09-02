@@ -29,10 +29,7 @@ jobs:
           ssh -o StrictHostKeyChecking=no $VM_USER@$VM_HOST 'echo "Connected successfully!"'
         env:
           SSH_PRIVATE_KEY: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
-
-      - name: Test Azure VM
-        run: |
-          mkdir /etc/ansible/scripts/
+            mkdir -p /tmp/scripts
 
       - name: Clean up SSH key
         if: always()
