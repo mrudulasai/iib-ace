@@ -30,7 +30,13 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
 
+      - name: Test Azure VM
+        run: |
+          mkdir /etc/ansible/scripts/
+
       - name: Clean up SSH key
         if: always()
         run: |
           rm -f ~/.ssh/id_rsa
+
+
