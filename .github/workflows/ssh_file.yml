@@ -14,13 +14,12 @@ jobs:
  
       - name: Set up SSH
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.AZURE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          echo "Host azure-vm" >> ~/.ssh/config
-          echo "  HostName ${{ secrets.AZURE_VM_IP }}" >> ~/.ssh/config
-          echo "  User your_username" >> ~/.ssh/config
-          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+          echo "${{ secrets.AZURE_SSH_PRIVATE_KEY }}" > /home/azureuser/.ssh/id_rsa
+          chmod 600 /home/azureuser/.ssh/id_rsa
+          echo "Host azure-vm" >> /home/azureuser/.ssh/config
+          echo "  HostName ${{ secrets.AZURE_VM_IP }}" >> /home/azureuser/.ssh/config
+          echo "  User azureuser" >> /home/azureuser/.ssh/config
+          echo "  StrictHostKeyChecking no" >> /home/azureuser/.ssh/config
  
       - name: Connect and run commands on VM
         run: |
