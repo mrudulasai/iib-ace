@@ -1,33 +1,27 @@
-name: Backup IIB
-
+name: Connect to Azure VM
+ 
 on:
-  push: 
-    branches: ["main"]
-  
-  workflow_dispatch:  # Allows manual trigger from GitHub UI
-
+  push:
+    branches:
+      - main
+ 
 jobs:
-  backup:
+  connect-to-vm:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
-
+ 
       - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.7.1
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Run IIB Backup Script
         run: |
-          ssh -o StrictHostKeyChecking=no user@your-local-server 'bash -s' < .github/workflows/scripts/remote_backup.sh
-
-
-      # - name: Run mqsiprofile command
-      #   env:
-      #     USERNAME: ${{ secrets.REMOTE_USER }}
-      #     PASSWORD: ${{ secrets.REMOTE_PASSWORD }}
-      #   run: |
-      #     echo "Running IIB commands..."
-      #     . /opt/ibm/mqsi/iib-10.0.0.7/server/bin/mqsiprofile
+          mkdir -p ~/.ssh
+          echo "${{ secrets.AZURE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "Host azure-vm" >> ~/.ssh/config
+          echo "  HostName ${{ secrets.AZURE_VM_IP }}" >> ~/.ssh/config
+          echo "  User your_username" >> ~/.ssh/config
+          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+ 
+      - name: Connect and run commands on VM
+        run: |
+          ssh azure-vm "echo 'Connected successfully'; uname -a"
