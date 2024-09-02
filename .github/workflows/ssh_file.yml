@@ -29,7 +29,11 @@ jobs:
           ssh -o StrictHostKeyChecking=no $VM_USER@$VM_HOST 'echo "Connected successfully!"'
         env:
           SSH_PRIVATE_KEY: ${{ secrets.AZURE_SSH_PRIVATE_KEY }}
-            mkdir -p /tmp/scripts
+  
+      - name: install git
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git
 
       - name: Clean up SSH key
         if: always()
